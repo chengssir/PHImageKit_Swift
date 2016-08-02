@@ -7,20 +7,30 @@
 //
 
 import UIKit
+import Photos
+
 
 class ViewController: UIViewController ,MMPHImagePickerViewControllerDelegate {
 
+    var KScreenWith : Int?
+
+    @IBOutlet weak var showImageView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //创建一个ContactAdd类型的按钮
+        KScreenWith = Int(UIScreen .mainScreen().bounds.width/4)
+
+        PHPhotoLibrary.requestAuthorization { (statuss : PHAuthorizationStatus) in
+        };
+
+
+        //创建一个Contact,,Add类型的按钮
         let button:UIButton = UIButton(type:.System)
         //设置按钮位置和大小
         button.frame=CGRectMake(10, 150, 100, 30)
         //设置按钮文字
         button.setTitle("按钮", forState:UIControlState.Normal)
         //设置点击事件
-        button.addTarget(self, action: Selector("tapped:"), forControlEvents: .TouchUpInside);
+        button.addTarget(self, action: #selector(ViewController.tapped(_:)), forControlEvents: .TouchUpInside);
         //添加背景颜色
         button.backgroundColor = UIColor.lightGrayColor()
         //设置tag
@@ -44,10 +54,20 @@ class ViewController: UIViewController ,MMPHImagePickerViewControllerDelegate {
     }
     
     func MMPHImagePickerControllerDidFinish(imagePickerController: MMPHImagePickerViewController, assets: NSArray) {
-        
-        print(assets)
         imagePickerController.dismissViewControllerAnimated(true, completion: nil)
-        
+
+        for index in 0...assets.count - 1 {
+            let remainder  = index % 4;
+            let intege  = index / 4;
+            print("\(remainder*KScreenWith!)+\(intege*KScreenWith!)")
+
+            let imageView = UIImageView.init(frame: CGRect.init(x: remainder*KScreenWith!, y: intege*KScreenWith!, width: KScreenWith!, height: KScreenWith!))
+            imageView.image = assets.objectAtIndex(index) as? UIImage
+            self.showImageView.addSubview(imageView)
+
+        }
+        print(assets)
+
     }
     
     override func didReceiveMemoryWarning() {

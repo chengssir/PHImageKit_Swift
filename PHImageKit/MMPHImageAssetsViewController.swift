@@ -39,7 +39,7 @@ class MMPHImageAssetsViewController: UIViewController,UICollectionViewDelegateFl
         }
         self.view.addSubview(self.collectionView1)
         
-        let rightItem = UIBarButtonItem.init(title: "确定", style: .Plain, target: self, action: Selector("addApp:"))
+        let rightItem = UIBarButtonItem.init(title: "确定", style: .Plain, target: self, action: #selector(MMPHImageAssetsViewController.addApp(_:)))
         self.navigationItem.rightBarButtonItem = rightItem;
         self.navigationItem.rightBarButtonItem!.enabled = false
 
@@ -101,7 +101,9 @@ class MMPHImageAssetsViewController: UIViewController,UICollectionViewDelegateFl
         let asset = self.fetchResult[indexPath.item] as! PHAsset;
         
         PHCachingImageManager().requestImageForAsset(asset, targetSize: CGSizeMake(154, 142), contentMode: .AspectFill, options: nil) { (result, info) -> Void in
-            cell.imageView1.image = result;
+            if result != nil {
+                cell.imageView1.image = result;
+            }
         }
     
         if self.selectedAssetURLs!.containsObject(asset) {

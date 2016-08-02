@@ -19,6 +19,11 @@ class MMPHImageAlbumViewController: UIViewController , UITableViewDelegate ,UITa
         self.navigationItem.title = "相册"
         self.view.backgroundColor = UIColor.redColor()
         self.dataArray = NSMutableArray()
+
+        let item=UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(MMPHImageAlbumViewController.backViewController))
+        self.navigationItem.leftBarButtonItem  = item;
+
+
         /*
         enum PHAssetCollectionType : Int {
         case Album //从 iTunes 同步来的相册，以及用户在 Photos 中自己建立的相册
@@ -59,15 +64,15 @@ class MMPHImageAlbumViewController: UIViewController , UITableViewDelegate ,UITa
             }
         }
         self.dataArray = studic
-        self.view.addSubview(self.tableView1111)
-        self.tableView1111.tableHeaderView = UIView()
-        self.tableView1111.tableFooterView = UIView()
-        self.tableView1111.reloadData()
+        self.view.addSubview(self.tableView)
+        self.tableView.tableHeaderView = UIView()
+        self.tableView.tableFooterView = UIView()
+        self.tableView.reloadData()
 
         print(self.imagePickerController!.maximumNumberOfSelection)
     }
     
-    lazy var tableView1111: UITableView = {
+    lazy var tableView: UITableView = {
         let tempTableView = UITableView (frame: self.view.bounds, style: UITableViewStyle.Plain)
         tempTableView.delegate = self
         tempTableView.dataSource = self
@@ -198,5 +203,12 @@ class MMPHImageAlbumViewController: UIViewController , UITableViewDelegate ,UITa
         
         return image;
     }
-   
+
+
+    func backViewController() {
+
+        self.dismissViewControllerAnimated(true, completion: nil)
+
+    }
+
 }
